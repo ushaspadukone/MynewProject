@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department of Information Science | Student Portal</title>
+    <!-- Link to external CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Top Navigation / Header -->
+<header class="site-header">
+    <div class="header-container">
+        <h1>VTU Affiliated Institution</h1>
+        <p>Department of Information Science & Engineering — Student Management System</p>
+    </div>
+</header>
+
+<!-- Main Content Grid -->
+<main class="main-container">
+
+    <!-- Left Column: Add Student Form -->
+    <section class="card form-card">
+        <h2>Register New Student</h2>
+        <form id="studentForm" onsubmit="addStudent(event)">
+            <div class="input-group">
+                <label for="studentId">Student ID / USN</label>
+                <input type="text" id="studentId" placeholder="e.g., 1RV22IS001" required>
+            </div>
+
+            <div class="input-group">
+                <label for="studentName">Full Name</label>
+                <input type="text" id="studentName" placeholder="Enter student name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="studentDept">Department</label>
+                <select id="studentDept">
+                    <option value="Information Science">Information Science & Engg</option>
+                    <option value="Computer Science">Computer Science & Engg</option>
+                    <option value="Electronics">Electronics & Communication</option>
+                    <option value="Mechanical">Mechanical Engineering</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Add Student Record</button>
+        </form>
+    </section>
+
+    <!-- Right Column: Student Records Table -->
+    <section class="card table-card">
+        <div class="table-header">
+            <h2>Enrolled Students</h2>
+            <span id="studentCount" class="badge">Total: 2</span>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                <tr>
+                    <th>Student ID / USN</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                <!-- Populated dynamically via JavaScript -->
+                <tr>
+                    <td>1RV22IS045</td>
+                    <td>Aarav Sharma</td>
+                    <td>Information Science</td>
+                    <td><button class="btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>
+                </tr>
+                <tr>
+                    <td>1RV22CS102</td>
+                    <td>Priya Patel</td>
+                    <td>Computer Science</td>
+                    <td><button class="btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <p>&copy; 2026 Student Management System | Built with Maven, Java & Web Tech</p>
+</footer>
+
+<!-- Inline/External JavaScript to handle dynamic adding -->
+<script>
+    function addStudent(event) {
+        event.preventDefault();
+
+        const id = document.getElementById('studentId').value.trim();
+        const name = document.getElementById('studentName').value.trim();
+        const dept = document.getElementById('studentDept').value;
+
+        const tbody = document.getElementById('studentTableBody');
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${dept}</td>
+                <td><button class="btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>
+            `;
+
+        tbody.appendChild(newRow);
+
+        // Reset form
+        document.getElementById('studentForm').reset();
+        updateCount();
+    }
+
+    function updateCount() {
+        const rows = document.getElementById('studentTableBody').getElementsByTagName('tr');
+        document.getElementById('studentCount').innerText = `Total: ${rows.length}`;
+    }
+</script>
+</body>
+</html>
